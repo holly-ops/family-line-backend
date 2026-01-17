@@ -1,4 +1,11 @@
-import express from "express";
+app.get("/", (req, res) => {
+  res.status(200).send("Family Line backend is running ✅");
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true });
+});
+ express from "express";
 import { twiml as Twiml } from "twilio";
 
 const app = express();
