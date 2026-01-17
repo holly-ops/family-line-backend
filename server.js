@@ -1,3 +1,12 @@
+const express = require("express");
+const twilio = require("twilio");
+
+const app = express();
+
+// Twilio sends x-www-form-urlencoded by default
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.status(200).send("Family Line backend is running ✅");
 });
@@ -5,22 +14,17 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).json({ ok: true });
 });
- express from "express";
-import { twiml as Twiml } from "twilio";
-
-const app = express();
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 app.post("/twilio/inbound", (req, res) => {
-  const response = new Twiml.VoiceResponse();
+  const response = new twilio.twiml.VoiceResponse();
   response.say("Hello. Family Line is working. We will be with you shortly.");
   response.hangup();
+
   res.type("text/xml");
   res.send(response.toString());
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("Family Line backend running");
+  console.log(`Family Line backend listening on port ${port}`);
 });
